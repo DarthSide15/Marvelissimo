@@ -9,12 +9,33 @@
     tools:showIn="@layout/app_bar_main"
     tools:context=".MainActivity"
     android:background="@color/colorBackground">
+
     <ImageView
             android:layout_width="wrap_content"
             android:layout_height="102dp"
             android:src="@drawable/web_hi_res_512"
             android:id="@+id/marvLogo"
-            android:scaleType="centerCrop" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"/>
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/marvLogo_description"/>
+
+    <TextView
+            android:text="@string/home_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/homePageTxt"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/marvLogo"
+            android:fontFamily="@font/heebo"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"/>
 </android.support.constraint.ConstraintLayout>

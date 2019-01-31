@@ -10,4 +10,9 @@
     <string name="nav_series">Series</string>
     <string name="nav_characters">Characters</string>
     <string name="nav_favourites">Favourites</string>
+    <string name="home_description">This is the home page</string>
+    <string name="series_description">This is the series page</string>
+    <string name="characters_description">This is the characters page</string>
+    <string name="favourite_description">This is the favourites page</string>
+    <string name="marvLogo_description">Application title header</string>
 </resources>
