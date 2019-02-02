@@ -7,8 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:openDrawer="start"
-    >
+    tools:openDrawer="start">
 
     <include
         layout="@layout/app_bar_main"
@@ -16,18 +15,12 @@
         android:layout_height="match_parent" />
 
     <android.support.design.widget.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer"
-            android:background="@color/colorBackground" app:itemTextColor="@android:color/white">
-        <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="149dp" app:srcCompat="@drawable/web_hi_res_512"
-                android:id="@+id/navbarLogo" android:scaleType="centerCrop"/>
-    </android.support.design.widget.NavigationView>
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/activity_main_drawer" />
 
 </android.support.v4.widget.DrawerLayout>
