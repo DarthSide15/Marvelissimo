@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo
+package com.darthside.marvelissimo.api
 
 
 class MarvelAPI() {

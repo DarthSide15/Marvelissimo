@@ -1,7 +1,7 @@
-package com.darthside.marvelissimo
+package com.darthside.marvelissimo.main_files
 
-import com.darthside.marvelissimo.entities.Character
-import com.darthside.marvelissimo.entities.Series
+import com.darthside.marvelissimo.models.Character
+import com.darthside.marvelissimo.models.Series
 
 class Application() {
 

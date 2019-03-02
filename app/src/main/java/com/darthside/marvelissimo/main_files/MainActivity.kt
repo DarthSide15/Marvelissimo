@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo
+package com.darthside.marvelissimo.main_files
 
 import android.net.Uri
 import android.os.Bundle
@@ -16,19 +16,15 @@ import com.darthside.marvelissimo.fragments.HomeFragment
 import com.darthside.marvelissimo.fragments.SeriesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import java.net.URL
 import android.widget.Toast
-import android.os.AsyncTask
-import com.darthside.marvelissimo.entities.CharacterResult
+import com.darthside.marvelissimo.api.GetCharactersService
+import com.darthside.marvelissimo.R
+import com.darthside.marvelissimo.api.RetroFitClientInstance
+import com.darthside.marvelissimo.models.CharacterResult
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.security.MessageDigest
-import java.security.Timestamp
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-import java.util.*
 
 
 class MainActivity : AppCompatActivity(),
@@ -43,26 +39,13 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
+    private val tag = "CUSTOM_DEBUG"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        
-
-        var publicKey = "174943a97b8c08a00a80d1ed425d9ed1"
-        var privateKey = "0033be867dc3fdb7df59babb98fa5f55b2c7dbd8"
-
-        var hexString = StringBuilder("")
-        val md5 = MessageDigest.getInstance("MD5")
-        md5.digest("1551370437000%2C1551456868000174943a97b8c08a00a80d1ed425d9ed10033be867dc3fdb7df59babb98fa5f55b2c7dbd8".toByteArray()).forEach {
-            hexString.append(String.format("%02x", it))
-        }
-        val hash = hexString.toString()
-
-        Log.d("HASH", hash)
-
-        var urlExample = "characters?name=deadpool&$hash"
+        authenticateUrl()
 
         val service = RetroFitClientInstance.retrofitInstance?.create(GetCharactersService::class.java)
         val call = service?.getAllCharacters()
@@ -72,17 +55,21 @@ class MainActivity : AppCompatActivity(),
                 val body = response?.body()
                 val result = body?.result
                 var size = result?.size
+                Log.d("URL", "Size: ${size.toString()}")
             }
 
             override fun onFailure(call: Call<CharacterResult>, t: Throwable) {
                 Toast.makeText(applicationContext, "Error handling JSON", Toast.LENGTH_LONG).show()
             }
-
         })
 
 
+
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+                this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -120,10 +107,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        // Create a fragment, stick that fragment into the layout of the main screen
-        // app_bar_main.xml is our main container for displaying content
-        // Right now it includes content_main, which displays the home page
         when (item.itemId) {
 
             R.id.nav_home -> {
@@ -170,5 +153,22 @@ class MainActivity : AppCompatActivity(),
 
     override fun onFragmentInteraction(uri: Uri) {
         Log.d("Darthside", "On Fragment Interaction")
+    }
+
+    fun authenticateUrl() {
+        val ts = "1"
+        val publicKey = "174943a97b8c08a00a80d1ed425d9ed1"
+        val privateKey = "0033be867dc3fdb7df59babb98fa5f55b2c7dbd8"
+
+        val hexString = StringBuilder("")
+        val md5 = MessageDigest.getInstance("MD5")
+        md5.digest("$ts$privateKey$publicKey".toByteArray()).forEach {
+            hexString.append(String.format("%02x", it))
+        }
+        val hash = hexString.toString()
+
+        Log.d(tag, "Hash generated: $hash")
+        Log.d(tag, "Timestamp set to $ts")
+        Log.d(tag, "Public key is $publicKey")
     }
 }

@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo
+package com.darthside.marvelissimo.api
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
