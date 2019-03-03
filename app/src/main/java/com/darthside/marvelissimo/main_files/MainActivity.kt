@@ -10,6 +10,9 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
+import com.darthside.marvelissimo.R
+import com.darthside.marvelissimo.R.id.name_placeholder
 import com.darthside.marvelissimo.fragments.CharactersFragment
 import com.darthside.marvelissimo.fragments.FavouriteFragment
 import com.darthside.marvelissimo.fragments.HomeFragment
@@ -24,6 +27,7 @@ import java.io.IOException
 import java.security.MessageDigest
 import com.darthside.marvelissimo.R.id.nav_home
 import com.darthside.marvelissimo.api.MarvelAPI
+import kotlinx.android.synthetic.main.fragment_home.*
 
 
 class MainActivity : AppCompatActivity(),
@@ -31,8 +35,7 @@ class MainActivity : AppCompatActivity(),
         HomeFragment.OnFragmentInteractionListener,
         SeriesFragment.OnFragmentInteractionListener,
         CharactersFragment.OnFragmentInteractionListener,
-        FavouriteFragment.OnFragmentInteractionListener
-{
+        FavouriteFragment.OnFragmentInteractionListener {
 
     lateinit var homeFragment: HomeFragment
     lateinit var seriesFragment: SeriesFragment
@@ -47,23 +50,11 @@ class MainActivity : AppCompatActivity(),
         authenticateUrl()
         var characterName = "Hawkeye"
 
+        // TODO: set characterName to users input
+        // TODO: make request with characterName as argument
         MarvelAPI().getCharacter(characterName)
-
-/*        val service = RetroFitClientInstance.retrofitInstance?.create(GetCharactersService::class.java)
-        val call = service?.getAllCharacters()
-        call?.enqueue(object : Callback<Response> {
-
-            override fun onResponse(call: Call<Response>, response: Response<Response>) {
-                val body = response?.body()
-                val result = body?.result
-                var size = result?.size
-                Log.d("URL", "Size: ${size.toString()}")
-            }
-
-            override fun onFailure(call: Call<Response>, t: Throwable) {
-                Toast.makeText(applicationContext, "Error handling JSON", Toast.LENGTH_LONG).show()
-            }
-        })*/
+        // TODO: getCharacter should return a Character object ???
+        // TODO: Update UI elements with the data from the Character object
 
 
 

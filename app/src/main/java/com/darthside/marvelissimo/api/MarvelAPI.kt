@@ -9,7 +9,7 @@ import okhttp3.Request
 import java.io.IOException
 
 
-class MarvelAPI {
+open class MarvelAPI {
 
     private val httpTag = "HTTP"
     private val ts = "1"
