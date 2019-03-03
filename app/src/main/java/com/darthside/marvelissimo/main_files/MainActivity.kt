@@ -8,11 +8,9 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.view.*
 import android.widget.TextView
 import com.darthside.marvelissimo.R
-import com.darthside.marvelissimo.R.id.name_placeholder
 import com.darthside.marvelissimo.fragments.CharactersFragment
 import com.darthside.marvelissimo.fragments.FavouriteFragment
 import com.darthside.marvelissimo.fragments.HomeFragment
@@ -24,11 +22,8 @@ import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.IOException
-import java.security.MessageDigest
 import com.darthside.marvelissimo.R.id.nav_home
-import com.darthside.marvelissimo.api.MarvelAPI
-import kotlinx.android.synthetic.main.fragment_home.*
-
+import com.darthside.marvelissimo.models.Character
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
@@ -41,19 +36,26 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
+    private val httpTag = "HTTP"
+    private val ts = "1"
+    private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
+    private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
+    private var url = ""
+    private val client = OkHttpClient()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.darthside.marvelissimo.R.layout.activity_main)
         setSupportActionBar(toolbar)
-        authenticateUrl()
-        var characterName = "Hawkeye"
+        var characterName = "spider-man"
+
+        println(findViewById<TextView>(R.id.name_placeholder))
+
 
         // TODO: set characterName to users input
         // TODO: make request with characterName as argument
-        MarvelAPI().getCharacter(characterName)
-        // TODO: getCharacter should return a Character object ???
+        getCharacter(characterName)
         // TODO: Update UI elements with the data from the Character object
 
 
@@ -75,7 +77,56 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+    private fun getCharacter(name : String) {
 
+        var character : Character
+        url = "https://gateway.marvel.com/v1/public/characters?name=$name&ts=$ts&apikey=$apiKey&hash=$hash"
+        Log.d(httpTag, "Attempting request")
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                val response = response.body()?.string()
+                println("Response body: $response")
+
+                val gson = GsonBuilder().create()
+                val jsonData = gson.fromJson(response, Response::class.java)
+
+                val text : TextView
+
+                println("Json Data: $jsonData")
+                if (jsonData.data.results.isNotEmpty()) {
+                    character = jsonData.data.results.first()
+                    println("Characters found: ${jsonData.data.results.size}")
+                    println(character)
+
+                    // TODO: put jsonData.name in name_placeholder
+                    // TODO: put jsonData.description in description_placeholder
+
+                    val name = jsonData.data.results.first().name
+                    val description = jsonData.data.results.first().description
+                    val namePlaceholder = findViewById<TextView>(R.id.name_placeholder)
+                    val descriptionPlaceholder = findViewById<TextView>(R.id.description_placeholder)
+
+
+                    runOnUiThread {
+                        descriptionPlaceholder.text = description
+                        namePlaceholder.text = name
+                    }
+
+                } else {
+                    println("Characters found: ${jsonData.data.results.size}")
+                    println("Could not find this character")
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                println("Failed to execute request")
+            }
+        })
+
+    }
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
@@ -150,20 +201,7 @@ class MainActivity : AppCompatActivity(),
         Log.d("Darthside", "On Fragment Interaction")
     }
 
-    private fun authenticateUrl() {
-        val ts = "1"
-        val publicKey = "174943a97b8c08a00a80d1ed425d9ed1"
-        val privateKey = "0033be867dc3fdb7df59babb98fa5f55b2c7dbd8"
 
-        val hexString = StringBuilder("")
-        val md5 = MessageDigest.getInstance("MD5")
-        md5.digest("$ts$privateKey$publicKey".toByteArray()).forEach {
-            hexString.append(String.format("%02x", it))
-        }
-        val hash = hexString.toString()
 
-        Log.d("", "Hash generated: $hash")
-        Log.d("", "Timestamp set to $ts")
-        Log.d("", "Public key is $publicKey")
-    }
+
 }
