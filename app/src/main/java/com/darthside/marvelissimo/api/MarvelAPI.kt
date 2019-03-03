@@ -13,10 +13,6 @@ import java.io.IOException
 open class MarvelAPI {
 
 
-
-
-
-
     fun getAllCharacters() {
 
     }
