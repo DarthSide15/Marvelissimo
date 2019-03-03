@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
 import android.widget.TextView
-import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.fragments.CharactersFragment
 import com.darthside.marvelissimo.fragments.FavouriteFragment
 import com.darthside.marvelissimo.fragments.HomeFragment
@@ -24,6 +23,9 @@ import okhttp3.Request
 import java.io.IOException
 import com.darthside.marvelissimo.R.id.nav_home
 import com.darthside.marvelissimo.models.Character
+import android.support.v4.app.Fragment
+import com.darthside.marvelissimo.R
+
 
 class MainActivity : AppCompatActivity(),
         NavigationView.OnNavigationItemSelectedListener,
@@ -36,6 +38,7 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
+
     private val httpTag = "HTTP"
     private val ts = "1"
     private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
@@ -47,18 +50,21 @@ class MainActivity : AppCompatActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.darthside.marvelissimo.R.layout.activity_main)
+
+        homeFragment = HomeFragment.newInstance("p1", "p2")
+        seriesFragment = SeriesFragment.newInstance("p1", "p2")
+        charactersFragment = CharactersFragment.newInstance("p1", "p2")
+        favouriteFragment = FavouriteFragment.newInstance("p1", "p2")
+
+        setLaunchFragment(homeFragment)
         setSupportActionBar(toolbar)
-        var characterName = "spider-man"
 
-        println(findViewById<TextView>(R.id.name_placeholder))
-
+        var nameInput = "spider-man"
 
         // TODO: set characterName to users input
         // TODO: make request with characterName as argument
-        getCharacter(characterName)
+        getCharacter(nameInput)
         // TODO: Update UI elements with the data from the Character object
-
-
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar,
@@ -69,11 +75,6 @@ class MainActivity : AppCompatActivity(),
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
-        homeFragment = HomeFragment.newInstance("p1", "p2")
-        seriesFragment = SeriesFragment.newInstance("p1", "p2")
-        charactersFragment = CharactersFragment.newInstance("p1", "p2")
-        favouriteFragment = FavouriteFragment.newInstance("p1", "p2")
 
     }
 
@@ -126,6 +127,13 @@ class MainActivity : AppCompatActivity(),
             }
         })
 
+    }
+
+    private fun setLaunchFragment(fragment: Fragment) {
+        val fragmentManager = supportFragmentManager
+        fragmentManager.beginTransaction()
+            .replace(com.darthside.marvelissimo.R.id.container, fragment)
+            .commit()
     }
 
     override fun onBackPressed() {
