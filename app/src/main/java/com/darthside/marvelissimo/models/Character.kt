@@ -1,10 +1,10 @@
 package com.darthside.marvelissimo.models
 
-import com.google.gson.annotations.SerializedName
 
-data class Character constructor(var name: String,
-                                 var path: String,
-                                 var extension: String,
-                                 @SerializedName("url")
-                                 var wikiUrl: String,
-                                 var favourite: Boolean)
+data class Character constructor(val id : Int,
+                                 val name: String,
+                                 val description : String,
+                                 val thumbnail : Thumbnail,
+                                 val resourceURI : String,
+                                 val series : SeriesData,
+                                 val urls : List<Url>)

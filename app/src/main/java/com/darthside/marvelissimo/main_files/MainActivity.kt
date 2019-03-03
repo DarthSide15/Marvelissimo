@@ -16,15 +16,14 @@ import com.darthside.marvelissimo.fragments.HomeFragment
 import com.darthside.marvelissimo.fragments.SeriesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import android.widget.Toast
-import com.darthside.marvelissimo.api.GetCharactersService
-import com.darthside.marvelissimo.R
-import com.darthside.marvelissimo.api.RetroFitClientInstance
-import com.darthside.marvelissimo.models.CharacterResult
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.darthside.marvelissimo.models.Response
+import com.google.gson.GsonBuilder
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.io.IOException
 import java.security.MessageDigest
+import com.darthside.marvelissimo.R.id.nav_home
+import com.darthside.marvelissimo.api.MarvelAPI
 
 
 class MainActivity : AppCompatActivity(),
@@ -39,36 +38,39 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
-    private val tag = "CUSTOM_DEBUG"
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(com.darthside.marvelissimo.R.layout.activity_main)
         setSupportActionBar(toolbar)
         authenticateUrl()
+        var characterName = "Hawkeye"
 
-        val service = RetroFitClientInstance.retrofitInstance?.create(GetCharactersService::class.java)
+        MarvelAPI().getCharacter(characterName)
+
+/*        val service = RetroFitClientInstance.retrofitInstance?.create(GetCharactersService::class.java)
         val call = service?.getAllCharacters()
-        call?.enqueue(object : Callback<CharacterResult> {
+        call?.enqueue(object : Callback<Response> {
 
-            override fun onResponse(call: Call<CharacterResult>, response: Response<CharacterResult>) {
+            override fun onResponse(call: Call<Response>, response: Response<Response>) {
                 val body = response?.body()
                 val result = body?.result
                 var size = result?.size
                 Log.d("URL", "Size: ${size.toString()}")
             }
 
-            override fun onFailure(call: Call<CharacterResult>, t: Throwable) {
+            override fun onFailure(call: Call<Response>, t: Throwable) {
                 Toast.makeText(applicationContext, "Error handling JSON", Toast.LENGTH_LONG).show()
             }
-        })
+        })*/
 
 
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar,
-            R.string.navigation_drawer_open,
-            R.string.navigation_drawer_close
+            com.darthside.marvelissimo.R.string.navigation_drawer_open,
+            com.darthside.marvelissimo.R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -82,6 +84,8 @@ class MainActivity : AppCompatActivity(),
 
     }
 
+
+
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
@@ -92,7 +96,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(com.darthside.marvelissimo.R.menu.main, menu)
         return true
     }
 
@@ -101,7 +105,7 @@ class MainActivity : AppCompatActivity(),
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            com.darthside.marvelissimo.R.id.action_settings -> return true
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -109,38 +113,38 @@ class MainActivity : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
 
-            R.id.nav_home -> {
+            nav_home -> {
 
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, homeFragment)
+                    .replace(com.darthside.marvelissimo.R.id.container, homeFragment)
                     .addToBackStack(homeFragment.toString())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
-            R.id.nav_series -> {
+            com.darthside.marvelissimo.R.id.nav_series -> {
 
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, seriesFragment)
+                    .replace(com.darthside.marvelissimo.R.id.container, seriesFragment)
                     .addToBackStack(seriesFragment.toString())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
-            R.id.nav_characters -> {
+            com.darthside.marvelissimo.R.id.nav_characters -> {
 
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, charactersFragment)
+                    .replace(com.darthside.marvelissimo.R.id.container, charactersFragment)
                     .addToBackStack(charactersFragment.toString())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
             }
-            R.id.nav_favourites -> {
+            com.darthside.marvelissimo.R.id.nav_favourites -> {
 
                 supportFragmentManager
                     .beginTransaction()
-                    .replace(R.id.container, favouriteFragment)
+                    .replace(com.darthside.marvelissimo.R.id.container, favouriteFragment)
                     .addToBackStack(favouriteFragment.toString())
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .commit()
@@ -155,7 +159,7 @@ class MainActivity : AppCompatActivity(),
         Log.d("Darthside", "On Fragment Interaction")
     }
 
-    fun authenticateUrl() {
+    private fun authenticateUrl() {
         val ts = "1"
         val publicKey = "174943a97b8c08a00a80d1ed425d9ed1"
         val privateKey = "0033be867dc3fdb7df59babb98fa5f55b2c7dbd8"
@@ -167,8 +171,8 @@ class MainActivity : AppCompatActivity(),
         }
         val hash = hexString.toString()
 
-        Log.d(tag, "Hash generated: $hash")
-        Log.d(tag, "Timestamp set to $ts")
-        Log.d(tag, "Public key is $publicKey")
+        Log.d("", "Hash generated: $hash")
+        Log.d("", "Timestamp set to $ts")
+        Log.d("", "Public key is $publicKey")
     }
 }
