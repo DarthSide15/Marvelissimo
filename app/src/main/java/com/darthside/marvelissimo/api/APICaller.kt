@@ -1,8 +1,6 @@
 package com.darthside.marvelissimo.api
 
-import android.support.design.widget.TextInputEditText
 import android.util.Log
-import android.widget.EditText
 import com.darthside.marvelissimo.models.Character
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
@@ -19,7 +17,7 @@ class APICaller {
     private val client = OkHttpClient()
     private val inputName = "spider-man"
 
-    fun getCharacterCall(callback: (Character) -> Unit, nameInput : EditText) {
+    fun getCharacterCall(callback: (Character) -> Unit, nameInput : String) {
 
         url = "https://gateway.marvel.com/v1/public/characters?name=$nameInput&ts=$ts&apikey=$apiKey&hash=$hash"
         Log.d(httpTag, "Attempting request")
@@ -43,5 +41,17 @@ class APICaller {
                 println("Failed to execute request")
             }
         })
+    }
+
+    fun getSeriesCall() {
+
+    }
+
+    fun getAllCharactersCall() {
+
+    }
+
+    fun getAllSeriesCall() {
+
     }
 }

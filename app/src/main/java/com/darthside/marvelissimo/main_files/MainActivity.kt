@@ -35,9 +35,7 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
-
-
-
+    
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,28 +49,6 @@ class MainActivity : AppCompatActivity(),
         setLaunchFragment(homeFragment)
         setSupportActionBar(toolbar)
 
-        var nameInput : EditText = findViewById(R.id.input_edit_text)
-
-        val apiCaller = APICaller()
-        apiCaller.getCharacterCall({
-            val name = it.name
-            val description = it.description
-            val namePlaceholder = findViewById<TextView>(R.id.name_placeholder)
-            val descriptionPlaceholder = findViewById<TextView>(R.id.description_placeholder)
-            val view = findViewById<NavigationView>(R.id.nav_view)
-
-            runOnUiThread {
-                var nameInput : TextInputEditText = findViewById(R.id.input_edit_text)
-                descriptionPlaceholder.text = description
-                namePlaceholder.text = name
-            }
-        }, nameInput)
-
-
-
-        // TODO: set characterName to users input
-        // TODO: make request with characterName as argument
-        // TODO: Update UI elements with the data from the Character object
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar,
@@ -85,7 +61,6 @@ class MainActivity : AppCompatActivity(),
         nav_view.setNavigationItemSelectedListener(this)
 
     }
-
 
     private fun setLaunchFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
