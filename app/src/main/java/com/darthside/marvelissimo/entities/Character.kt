@@ -1,4 +1,5 @@
 package com.darthside.marvelissimo.entities
 
-class Character {
-}
+class Character(val id : Int,
+                val name: String,
+                val description : String)

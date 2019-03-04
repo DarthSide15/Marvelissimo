@@ -46,7 +46,7 @@ class APICaller {
         })
     }
 
-    fun getSeriesCall(callback: (SeriesDTO) -> Unit, seriesName : String) {
+    fun getSeriesCall(callback: (List<SeriesDTO>) -> Unit, seriesName : String) {
 
         url = "https://gateway.marvel.com/v1/public/series?titleStartsWith=$seriesName&ts=$ts&apikey=$apiKey&hash=$hash"
         Log.d(httpTag, "Attempting request")
@@ -59,11 +59,18 @@ class APICaller {
 
                 val gson = GsonBuilder().create()
                 val jsonData = gson.fromJson(response, SeriesDataWrapper::class.java)
+                val seriesList = mutableListOf<SeriesDTO>()
 
-                if (jsonData.data.results.isNotEmpty()) {
-                    val series = jsonData.data.results.first()
-                    callback(series)
+                if (jsonData.data.results.isEmpty()) {
+                    Log.d(httpTag, "No series found")
                 }
+
+                for (s in jsonData.data.results) {
+                    seriesList.add(s)
+                }
+                callback(seriesList)
+
+
             }
 
             override fun onFailure(call: okhttp3.Call, e: IOException) {

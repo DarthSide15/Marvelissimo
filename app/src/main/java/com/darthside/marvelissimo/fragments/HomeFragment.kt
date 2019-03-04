@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.entities.Character
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -32,24 +33,43 @@ class HomeFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        // TODO: When user searches for a character, run getCharacter(characterName)
+//        val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
+//        val descriptionPlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.description_placeholder)
+
         getCharacter("spider-man")
+
+//        descriptionPlaceholder?.text = description
+//        namePlaceholder?.text = name
+        // TODO: When user searches for a character, run getCharacter(characterName)
+
         // TODO: When user searches for a series, run getSeries(seriesName)
+        getSeries("wolverine")
 
     }
 
     private fun getCharacter(name : String) {
         apiCaller.getCharacterCall({
+            val id = it.id
             val name = it.name
             val description = it.description
-            val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
-            val descriptionPlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.description_placeholder)
             val view = nav_view
 
-            descriptionPlaceholder?.text = description
+            // Change UI elements here
+            val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
             namePlaceholder?.text = name
 
         }, name)
+    }
+
+    private fun getSeries(title : String) {
+        apiCaller.getSeriesCall({
+            for (i in it) {
+                println(i.title)
+            }
+
+            // Change UI elements here
+
+        }, title)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
