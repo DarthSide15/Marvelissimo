@@ -14,6 +14,7 @@ import com.darthside.marvelissimo.R
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+// create lists
 
 /**
  * A simple [Fragment] subclass.
@@ -36,6 +37,9 @@ class FavouriteFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+
     }
 
     override fun onCreateView(

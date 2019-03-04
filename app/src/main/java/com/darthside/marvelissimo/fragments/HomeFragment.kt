@@ -4,18 +4,19 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 
 import com.darthside.marvelissimo.api.APICaller
-import com.darthside.marvelissimo.entities.Character
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+private const val fragmentsTag =  "FRAGMENTS"
+private val apiCaller = APICaller()
 
 
 class HomeFragment : Fragment() {
@@ -23,7 +24,7 @@ class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    private val apiCaller = APICaller()
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,18 +34,21 @@ class HomeFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
+        Log.d(fragmentsTag, "HomeFragment loaded")
+
+        // Example on how to target elements in frontend
 //        val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
 //        val descriptionPlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.description_placeholder)
 
+
+        // TODO: At first the home fragment should just display a welcome text and some instructions for the user
+        // TODO: When the user searches for a character or series, the welcome text should be replaced by the search result
+
+        // Use this method call when user searches for a character, with the user input as an argument
         getCharacter("spider-man")
 
-//        descriptionPlaceholder?.text = description
-//        namePlaceholder?.text = name
-        // TODO: When user searches for a character, run getCharacter(characterName)
-
-        // TODO: When user searches for a series, run getSeries(seriesName)
+        // Use this method call when user searches for a series, with the user input as an argument
         getSeries("wolverine")
-
     }
 
     private fun getCharacter(name : String) {
@@ -55,8 +59,6 @@ class HomeFragment : Fragment() {
             val view = nav_view
 
             // Change UI elements here
-            val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
-            namePlaceholder?.text = name
 
         }, name)
     }

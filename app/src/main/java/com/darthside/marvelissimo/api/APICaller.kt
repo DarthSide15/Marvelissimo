@@ -18,7 +18,6 @@ class APICaller {
     private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
     private var url = ""
     private val client = OkHttpClient()
-    private val characterName = "spider-man"
 
     fun getCharacterCall(callback: (CharacterDTO) -> Unit, characterName : String) {
 
@@ -79,11 +78,59 @@ class APICaller {
         })
     }
 
-    fun getAllCharactersCall() {
+    fun getAllCharactersCall(callback: (List<CharacterDTO>) -> Unit) {
 
+        url = "https://gateway.marvel.com/v1/public/characters?&ts=$ts&apikey=$apiKey&hash=$hash"
+        Log.d(httpTag, "Attempting request")
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                val response = response.body()?.string()
+                println("CharacterDataWrapper body: $response")
+
+                val gson = GsonBuilder().create()
+                val jsonData = gson.fromJson(response, CharacterDataWrapper::class.java)
+
+                if (jsonData.data.results.isNotEmpty()) {
+                    val characterList = jsonData.data.results
+                    callback(characterList)
+                } else {
+                    Log.d(httpTag, "No characters found when calling getAllCharacters")
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                println("Failed to execute request")
+            }
+        })
     }
 
-    fun getAllSeriesCall() {
+    fun getAllSeriesCall(callback: (List<SeriesDTO>) -> Unit) {
 
+        url = "https://gateway.marvel.com/v1/public/series?&ts=$ts&apikey=$apiKey&hash=$hash"
+        Log.d(httpTag, "Attempting request")
+        val request = Request.Builder().url(url).build()
+
+        client.newCall(request).enqueue(object : okhttp3.Callback {
+            override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
+                val response = response.body()?.string()
+                println("SeriesDataWrapper body: $response")
+
+                val gson = GsonBuilder().create()
+                val jsonData = gson.fromJson(response, SeriesDataWrapper::class.java)
+
+                if (jsonData.data.results.isNotEmpty()) {
+                    val seriesList = jsonData.data.results
+                    callback(seriesList)
+                } else {
+                    Log.d(httpTag, "No series found when calling getAllSeries")
+                }
+            }
+
+            override fun onFailure(call: okhttp3.Call, e: IOException) {
+                println("Failed to execute request")
+            }
+        })
     }
 }
