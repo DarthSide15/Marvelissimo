@@ -25,6 +25,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_string">Name String</string>
 
+    <!-- Home Fragment Layout -->
+    <string name="welcome_text">Welcome to our cool Marvel app! Here you can look up information
+                                on your favourite characters or series. To get started try to search
+                                for something or open the navigation menu to the left to browse Marvel
+                                characters or series</string>
+
 
 
 </resources>

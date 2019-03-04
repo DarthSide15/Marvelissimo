@@ -19,9 +19,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.darthside.marvelissimo.R.id.nav_home
 import android.support.v4.app.Fragment
-import android.widget.EditText
-import com.darthside.marvelissimo.R
-import com.darthside.marvelissimo.api.APICaller
+
+
 
 
 class MainActivity : AppCompatActivity(),
@@ -35,7 +34,7 @@ class MainActivity : AppCompatActivity(),
     lateinit var seriesFragment: SeriesFragment
     lateinit var charactersFragment: CharactersFragment
     lateinit var favouriteFragment: FavouriteFragment
-    
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
