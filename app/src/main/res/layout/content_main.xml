@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_main"
-    tools:context=".MainActivity"
+    tools:context=".main_files.MainActivity"
     android:background="@color/colorBackground">
 
     <FrameLayout
@@ -19,5 +19,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:id="@+id/container">
 
+        <TextView
+                android:text="TextView"
+                android:layout_width="285dp"
+                android:layout_height="260dp" android:id="@+id/textView"/>
     </FrameLayout>
 </android.support.constraint.ConstraintLayout>

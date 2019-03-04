@@ -1,8 +1,5 @@
 package com.darthside.marvelissimo.entities
 
-class Character constructor(var name: String, var path: String, extension: String,
-                            var wikiUrl: String, var favourite: Boolean) {
-
-
-    var extension = ".$extension"
-}
+class Character(val id : Int,
+                val name: String,
+                val description : String)
