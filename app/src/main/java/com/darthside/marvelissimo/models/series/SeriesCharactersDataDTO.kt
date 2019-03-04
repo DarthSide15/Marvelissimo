@@ -1,4 +1,6 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.series
 
-class SeriesCharactersDataDTO {
-}
+data class SeriesCharactersDataDTO(val available : Int,
+                                   val collectionURI : String,
+                                   val items : List<SeriesCharactersDTO>,
+                                   val returned : Int)

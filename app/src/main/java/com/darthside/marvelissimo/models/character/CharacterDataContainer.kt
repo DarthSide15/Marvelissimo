@@ -1,4 +1,5 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.character
 
-data class CharacterDataContainer(val count : Int,
+data class CharacterDataContainer(val total : Int,
+                                  val count : Int,
                                   val results : List<CharacterDTO>)

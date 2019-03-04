@@ -4,6 +4,7 @@ import android.util.Log
 import com.darthside.marvelissimo.models.character.CharacterDTO
 import com.darthside.marvelissimo.models.series.SeriesDTO
 import com.darthside.marvelissimo.models.character.CharacterDataWrapper
+import com.darthside.marvelissimo.models.series.SeriesDataWrapper
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -54,14 +55,14 @@ class APICaller {
         client.newCall(request).enqueue(object : okhttp3.Callback {
             override fun onResponse(call: okhttp3.Call, response: okhttp3.Response) {
                 val response = response.body()?.string()
-                println("CharacterDataWrapper body: $response")
+                println("SeriesDataWrapper body: $response")
 
                 val gson = GsonBuilder().create()
-                val jsonData = gson.fromJson(response, CharacterDataWrapper::class.java)
+                val jsonData = gson.fromJson(response, SeriesDataWrapper::class.java)
 
                 if (jsonData.data.results.isNotEmpty()) {
-                    val character = jsonData.data.results.first()
-                    callback(character)
+                    val series = jsonData.data.results.first()
+                    callback(series)
                 }
             }
 

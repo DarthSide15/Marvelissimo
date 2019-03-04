@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.character
 
-data class ThumbnailDTO(val path : String,
-                        val extension : String)
+data class CharacterThumbnailDTO(val path : String,
+                                 val extension : String)

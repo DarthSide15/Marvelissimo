@@ -1,4 +1,4 @@
 package com.darthside.marvelissimo.models.series
 
-class SeriesThumbnailDTO {
-}
+data class SeriesThumbnailDTO(val path : String,
+                              val extension : String)

@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.character
 
-data class CharacterSeriesDTO constructor(val resourceURI : String,
-                                          val name : String)
+data class CharacterSeriesDTO(val resourceURI : String,
+                              val name : String)

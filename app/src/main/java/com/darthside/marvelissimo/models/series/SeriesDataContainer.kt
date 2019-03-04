@@ -1,4 +1,5 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.series
 
-class SeriesDataContainer {
-}
+data class SeriesDataContainer (val total : Int,
+                                val count : Int,
+                                val results : List<SeriesDTO>)

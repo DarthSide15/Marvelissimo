@@ -1,10 +1,9 @@
-package com.darthside.marvelissimo.models
-
+package com.darthside.marvelissimo.models.character
 
 data class CharacterDTO constructor(val id : Int,
                                     val name: String,
                                     val description : String,
-                                    val thumbnail : ThumbnailDTO,
+                                    val thumbnail : CharacterThumbnailDTO,
                                     val resourceURI : String,
                                     val series : CharacterSeriesDataDTO,
-                                    val urls : List<UrlDTO>)
+                                    val urls : List<CharacterUrlDTO>)

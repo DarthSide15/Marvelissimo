@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.character
 
-data class UrlDTO(val type : String,
-                  val url : String)
+data class CharacterUrlDTO(val type : String,
+                           val url : String)

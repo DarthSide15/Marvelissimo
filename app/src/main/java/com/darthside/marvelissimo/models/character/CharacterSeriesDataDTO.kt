@@ -1,4 +1,4 @@
-package com.darthside.marvelissimo.models
+package com.darthside.marvelissimo.models.character
 
 data class CharacterSeriesDataDTO(val available : Int,
                                   val connectionURI : String,

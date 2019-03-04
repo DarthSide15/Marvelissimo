@@ -1,4 +1,4 @@
 package com.darthside.marvelissimo.models.series
 
-class SeriesCharactersDTO {
-}
+data class SeriesCharactersDTO (val resourceURI : String,
+                                val name : String)
