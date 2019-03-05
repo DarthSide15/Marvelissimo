@@ -64,7 +64,6 @@ class RecyclerViewAdapter(characterNames: ArrayList<String>, characterImages: Ar
     }
 
     companion object {
-
         private const val TAG = "RecyclerViewAdapter"
     }
 }

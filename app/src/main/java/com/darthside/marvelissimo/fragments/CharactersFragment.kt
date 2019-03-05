@@ -13,6 +13,7 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.main_files.MainActivity
 import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -59,8 +60,11 @@ class CharactersFragment : Fragment() {
             val recyclerView = view?.findViewById<RecyclerView>(R.id.character_recycler_view)
             val adapter = RecyclerViewAdapter(characterNames, imageUrls, this.requireContext())             // Not sure if this.requireContext() is the way to go
 
-            recyclerView?.adapter = adapter
-            recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
+            activity?.runOnUiThread(Runnable {
+                recyclerView?.adapter = adapter
+                recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
+            })
+
 
         }
     }
