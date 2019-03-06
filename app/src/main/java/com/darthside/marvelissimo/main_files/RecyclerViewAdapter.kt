@@ -1,6 +1,7 @@
 package com.darthside.marvelissimo.main_files
 
 import android.content.Context
+import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,14 +13,16 @@ import com.darthside.marvelissimo.R
 
 import java.util.ArrayList
 
-class RecyclerViewAdapter(nameTitles: ArrayList<String>, images: ArrayList<String>, private val context: Context) :
+class RecyclerViewAdapter(nameTitles: ArrayList<String>, images: ArrayList<String>, private val context: Context, isSeries : Boolean) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     private var nameTitles = arrayListOf<String>()
     private var images = arrayListOf<String>()
+    private var isSeries = false
 
     init {
         this.nameTitles = nameTitles
         this.images = images
+        this.isSeries = isSeries
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): ViewHolder {
@@ -39,13 +42,18 @@ class RecyclerViewAdapter(nameTitles: ArrayList<String>, images: ArrayList<Strin
         viewHolder.parentLayout.setOnClickListener {
             Log.d(TAG, "onClick: clicked on " + nameTitles[i])
             Toast.makeText(context, nameTitles[i], Toast.LENGTH_SHORT).show()
-            // Load CharacterDetails
+            // Load CharacterDetails or SeriesDetails
+            if (isSeries) {
+                // Load SeriesDetailsActivity
+            }
+
         }
 
         viewHolder.favouriteButton.setOnClickListener {
             Log.d(TAG, "Favourite button pressed")
             Toast.makeText(context, "Favourite button pressed on ${nameTitles[i]}", Toast.LENGTH_SHORT).show()
-            // Add this character to favourites
+
+
         }
 
     }
