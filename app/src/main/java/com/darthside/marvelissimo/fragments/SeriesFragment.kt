@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,10 +13,11 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val fragmentsTag = "FRAGMENTS"
+private const val fragmentsTag = "SERIES FRAGMENT"
 private val apiCaller = APICaller()
 private val ts = "1"
 private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
@@ -39,15 +42,30 @@ class SeriesFragment : Fragment() {
         //
     }
 
+    override fun onResume() {
+        super.onResume()
+        getAllSeries()
+    }
+
     private fun getAllSeries() {
         apiCaller.getAllSeriesCall {
+
+            val titles = arrayListOf<String>()
+            val imageUrls = arrayListOf<String>()
+
             for (s in it) {
-                // Loops through every character in the list
                 println(s.title)
+                titles.add(s.title)
+                imageUrls.add(s.thumbnail.path + "/standard_medium." + s.thumbnail.extension)
             }
 
-            // Update UI here
+            val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
+            val adapter = RecyclerViewAdapter(titles, imageUrls, this.requireContext())
 
+            activity?.runOnUiThread {
+                recyclerView?.adapter = adapter
+                recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
+            }
         }
     }
 
@@ -65,7 +83,7 @@ class SeriesFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            throw RuntimeException("$context must implement OnFragmentInteractionListener")
         }
     }
 

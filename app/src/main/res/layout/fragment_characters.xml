@@ -6,7 +6,7 @@
              android:layout_height="match_parent"
              tools:context=".fragments.CharactersFragment">
 
-    <include layout="@layout/character_recycler_view"></include>
+    <include layout="@layout/recycler_view"></include>
 
     <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

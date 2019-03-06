@@ -8,15 +8,15 @@
     <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/character_image"
+            android:id="@+id/image"
             android:src="@mipmap/ic_launcher"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Character Name"
-            android:id="@+id/character_name"
-            android:layout_toRightOf="@id/character_image"
+            android:text="Character Name / Series Title"
+            android:id="@+id/name_title"
+            android:layout_toRightOf="@id/image"
             android:textColor="@color/colorText"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"

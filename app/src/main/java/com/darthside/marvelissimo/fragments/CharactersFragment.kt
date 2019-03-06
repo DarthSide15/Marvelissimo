@@ -13,20 +13,19 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
-import com.darthside.marvelissimo.main_files.MainActivity
 import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val fragmentsTag = "FRAGMENTS"
+private const val fragmentsTag = "CHARACTER FRAGMENT"
 private val apiCaller = APICaller()
 private val ts = "1"
 private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
 private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
-private val characterNames = arrayListOf<String>()
-private val imageUrls = arrayListOf<String>()
+
 
 class CharactersFragment : Fragment() {
+
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -42,30 +41,32 @@ class CharactersFragment : Fragment() {
         Log.d(fragmentsTag, "CharactersFragment loaded, attempting to get all characters from the Marvel API")
         getAllCharacters()
 
-
     }
 
-
+    override fun onResume() {
+        super.onResume()
+        getAllCharacters()
+    }
 
     private fun getAllCharacters() {
         apiCaller.getAllCharactersCall {
 
+            val characterNames = arrayListOf<String>()
+            val imageUrls = arrayListOf<String>()
+
             for (c in it) {
-                // Loops through every character in the list
                 println(c.name)
                 characterNames.add(c.name)
                 imageUrls.add(c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
-
             }
-            val recyclerView = view?.findViewById<RecyclerView>(R.id.character_recycler_view)
-            val adapter = RecyclerViewAdapter(characterNames, imageUrls, this.requireContext())             // Not sure if this.requireContext() is the way to go
 
-            activity?.runOnUiThread(Runnable {
+            val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
+            val adapter = RecyclerViewAdapter(characterNames, imageUrls, this.requireContext())
+
+            activity?.runOnUiThread {
                 recyclerView?.adapter = adapter
                 recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
-            })
-
-
+            }
         }
     }
 
