@@ -15,11 +15,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val fragmentsTag =  "FRAGMENTS"
+private const val fragmentsTag =  "HOME FRAGMENT"
 private val apiCaller = APICaller()
-private val ts = "1"
-private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
-private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
 
 
 class HomeFragment : Fragment() {
@@ -28,8 +25,6 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -37,14 +32,8 @@ class HomeFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-        Log.d(fragmentsTag, "HomeFragment loaded")
+        Log.d(fragmentsTag, "Fragment loaded")
 
-        // Example on how to target elements in frontend
-//        val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
-//        val descriptionPlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.description_placeholder)
-
-
-        // TODO: At first the home fragment should just display a welcome text and some instructions for the user
         // TODO: When the user searches for a character or series, the welcome text should be replaced by the search result
 
         // Use this method call when user searches for a character, with the user input as an argument
@@ -52,6 +41,17 @@ class HomeFragment : Fragment() {
 
         // Use this method call when user searches for a series, with the user input as an argument
         getSeries("wolverine")
+    }
+
+    private fun searchForCharacter(name : String) {
+        apiCaller.searchCharacter({
+            for (c in it) {
+                var image = c.thumbnail
+                var name = c.name
+
+
+            }
+        }, name)
     }
 
     private fun getCharacter(name : String) {
@@ -101,20 +101,10 @@ class HomeFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {

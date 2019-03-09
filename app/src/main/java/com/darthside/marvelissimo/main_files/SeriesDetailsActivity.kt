@@ -20,7 +20,7 @@ class SeriesDetailsActivity : AppCompatActivity() {
 
         var imagePh : ImageView? = findViewById(R.id.image_ph)
         var titlePh : TextView? = findViewById(R.id.title_ph)
-        var descriptionPh : TextView? = findViewById(R.id.description_placeholder)
+        var descriptionPh : TextView? = findViewById(R.id.description)
         var startYearPh : TextView? = findViewById(R.id.start_year_ph)
         var endYearPh : TextView? = findViewById(R.id.end_year_ph)
         var characterListLayout : LinearLayout = findViewById(R.id.character_list_layout)
