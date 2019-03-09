@@ -8,7 +8,7 @@
     <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:id="@+id/image"
+            android:id="@+id/image_ph"
             android:src="@mipmap/ic_launcher"/>
 
     <TextView
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:text="Character Name / Series Title"
             android:id="@+id/name_title"
-            android:layout_toRightOf="@id/image"
+            android:layout_toRightOf="@id/image_ph"
             android:textColor="@color/colorText"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"

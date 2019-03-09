@@ -2,7 +2,6 @@ package com.darthside.marvelissimo.main_files
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -69,7 +68,7 @@ class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, im
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        internal var image: ImageView = itemView.findViewById(R.id.image)
+        internal var image: ImageView = itemView.findViewById(R.id.image_ph)
         internal var nameTitle: TextView = itemView.findViewById(R.id.name_title)
         internal var favouriteButton: Button = itemView.findViewById(R.id.favourite_button)
         internal var parentLayout: RelativeLayout = itemView.findViewById(R.id.parent_layout)
