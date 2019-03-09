@@ -19,9 +19,7 @@
             app:layout_constraintStart_toStartOf="@+id/character_description"
             android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/character_description"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/series_list_layout"
-            app:layout_constraintHorizontal_bias="0.0"/>
+            />
 
     <ImageView
             android:layout_width="120dp"
@@ -62,15 +60,14 @@
 
     <LinearLayout
             android:orientation="vertical"
-            android:layout_width="269dp"
-            android:layout_height="91dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/series_list_layout"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="24dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="56dp"
             app:layout_constraintTop_toBottomOf="@+id/character_description"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintStart_toEndOf="@+id/character_details_textView"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="@+id/character_description"/>
 
 </android.support.constraint.ConstraintLayout>
