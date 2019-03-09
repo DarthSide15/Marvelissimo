@@ -17,11 +17,5 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:id="@+id/container">
-
-        <TextView
-                android:text="TextView"
-                android:layout_width="285dp"
-                android:layout_height="260dp" android:id="@+id/textView"/>
-    </FrameLayout>
+            android:id="@+id/container"/>
 </android.support.constraint.ConstraintLayout>

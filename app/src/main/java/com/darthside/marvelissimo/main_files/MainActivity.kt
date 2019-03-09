@@ -3,25 +3,17 @@ package com.darthside.marvelissimo.main_files
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.TextInputEditText
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.*
-import android.widget.TextView
-import com.darthside.marvelissimo.fragments.CharactersFragment
-import com.darthside.marvelissimo.fragments.FavouriteFragment
-import com.darthside.marvelissimo.fragments.HomeFragment
-import com.darthside.marvelissimo.fragments.SeriesFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import com.darthside.marvelissimo.R.id.nav_home
 import android.support.v4.app.Fragment
-import android.widget.EditText
-import com.darthside.marvelissimo.R
-import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.fragments.*
 
 
 class MainActivity : AppCompatActivity(),
@@ -31,11 +23,11 @@ class MainActivity : AppCompatActivity(),
         CharactersFragment.OnFragmentInteractionListener,
         FavouriteFragment.OnFragmentInteractionListener {
 
-    lateinit var homeFragment: HomeFragment
-    lateinit var seriesFragment: SeriesFragment
-    lateinit var charactersFragment: CharactersFragment
-    lateinit var favouriteFragment: FavouriteFragment
-    
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var seriesFragment: SeriesFragment
+    private lateinit var charactersFragment: CharactersFragment
+    private lateinit var favouriteFragment: FavouriteFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -141,8 +133,4 @@ class MainActivity : AppCompatActivity(),
     override fun onFragmentInteraction(uri: Uri) {
         Log.d("Darthside", "On Fragment Interaction")
     }
-
-
-
-
 }
