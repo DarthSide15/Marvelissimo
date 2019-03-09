@@ -59,7 +59,7 @@
     <TextView
             android:text="No description available"
             android:layout_height="wrap_content"
-            android:id="@+id/description"
+            android:id="@+id/series_description"
             android:layout_width="350dp"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="8dp"
@@ -78,8 +78,8 @@
             android:fontFamily="@font/heebo"
             android:textColor="@color/colorText"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@+id/description"
-            app:layout_constraintStart_toStartOf="@+id/description"/>
+            app:layout_constraintTop_toBottomOf="@+id/series_description"
+            app:layout_constraintStart_toStartOf="@+id/series_description"/>
 
     <TextView
             android:text="Unknown"
@@ -90,7 +90,7 @@
             android:textColor="@color/colorText"
             app:layout_constraintTop_toTopOf="@+id/start_year"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/description"/>
+            app:layout_constraintEnd_toEndOf="@+id/series_description"/>
 
     <TextView
             android:text="Unknown"
