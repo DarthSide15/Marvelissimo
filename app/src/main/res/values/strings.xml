@@ -30,6 +30,7 @@
                                 on your favourite characters or series. To get started try to search
                                 for something or open the navigation menu to the left to browse Marvel
                                 characters or series</string>
+    <string name="title_activity_character_details">CharacterDetailsActivity</string>
 
 
 </resources>

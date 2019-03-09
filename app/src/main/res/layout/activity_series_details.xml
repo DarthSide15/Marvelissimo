@@ -12,7 +12,7 @@
             android:text="SeriesDetailsActivity"
             android:layout_width="189dp"
             android:layout_height="94dp"
-            tools:layout_editor_absoluteY="235dp"
-            tools:layout_editor_absoluteX="128dp"
+            tools:layout_editor_absoluteY="191dp"
+            tools:layout_editor_absoluteX="96dp"
             android:id="@+id/text_000"/>
 </android.support.constraint.ConstraintLayout>

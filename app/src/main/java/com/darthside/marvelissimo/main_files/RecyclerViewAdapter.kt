@@ -50,6 +50,10 @@ class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, im
                 val intent = Intent(this.context, SeriesDetailsActivity::class.java)
                 intent.putExtra("id", id[i])
                 this.context.startActivity(intent)
+            }else{
+                val intent = Intent(this.context,CharacterDetailsActivity:: class.java)
+                intent.putExtra("id",id[i])
+                this.context.startActivity(intent)
             }
 
         }
