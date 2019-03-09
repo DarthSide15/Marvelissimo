@@ -4,6 +4,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,16 +13,23 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val fragmentsTag = "FRAGMENTS"
+private const val fragmentsTag = "CHARACTER FRAGMENT"
 private val apiCaller = APICaller()
+private val ts = "1"
+private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
+private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
+
 
 class CharactersFragment : Fragment() {
+
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,18 +40,35 @@ class CharactersFragment : Fragment() {
 
         Log.d(fragmentsTag, "CharactersFragment loaded, attempting to get all characters from the Marvel API")
         getAllCharacters()
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        getAllCharacters()
     }
 
     private fun getAllCharacters() {
         apiCaller.getAllCharactersCall {
-            for (c in it) {
-                // Loops through every character in the list
-                println(c.name)
 
+            val ids = arrayListOf<Int>()
+            val characterNames = arrayListOf<String>()
+            val imageUrls = arrayListOf<String>()
+
+            for (c in it) {
+                println(c.name)
+                ids.add(c.id)
+                characterNames.add(c.name)
+                imageUrls.add(c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
             }
 
-            // Update UI here
+            val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
+            val adapter = RecyclerViewAdapter(ids, characterNames, imageUrls, this.requireContext(), false)
 
+            activity?.runOnUiThread {
+                recyclerView?.adapter = adapter
+                recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
+            }
         }
     }
 
