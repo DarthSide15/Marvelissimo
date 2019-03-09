@@ -1,6 +1,7 @@
 package com.darthside.marvelissimo.main_files
 
 import android.content.Context
+import android.content.Intent
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -13,13 +14,15 @@ import com.darthside.marvelissimo.R
 
 import java.util.ArrayList
 
-class RecyclerViewAdapter(nameTitles: ArrayList<String>, images: ArrayList<String>, private val context: Context, isSeries : Boolean) :
+class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, images: ArrayList<String>, private val context: Context, isSeries : Boolean) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
+    private var id = arrayListOf<Int>()
     private var nameTitles = arrayListOf<String>()
     private var images = arrayListOf<String>()
     private var isSeries = false
 
     init {
+        this.id = id
         this.nameTitles = nameTitles
         this.images = images
         this.isSeries = isSeries
@@ -44,7 +47,9 @@ class RecyclerViewAdapter(nameTitles: ArrayList<String>, images: ArrayList<Strin
             Toast.makeText(context, nameTitles[i], Toast.LENGTH_SHORT).show()
             // Load CharacterDetails or SeriesDetails
             if (isSeries) {
-                // Load SeriesDetailsActivity
+                val intent = Intent(this.context, SeriesDetailsActivity::class.java)
+                intent.putExtra("id", id[i])
+                this.context.startActivity(intent)
             }
 
         }

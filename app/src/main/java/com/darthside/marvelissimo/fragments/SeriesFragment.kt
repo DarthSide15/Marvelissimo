@@ -50,17 +50,19 @@ class SeriesFragment : Fragment() {
     private fun getAllSeries() {
         apiCaller.getAllSeriesCall {
 
+            val ids = arrayListOf<Int>()
             val titles = arrayListOf<String>()
             val imageUrls = arrayListOf<String>()
 
             for (s in it) {
                 println(s.title)
+                ids.add(s.id)
                 titles.add(s.title)
                 imageUrls.add(s.thumbnail.path + "/standard_medium." + s.thumbnail.extension)
             }
 
             val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
-            val adapter = RecyclerViewAdapter(titles, imageUrls, this.requireContext())
+            val adapter = RecyclerViewAdapter(ids, titles, imageUrls, this.requireContext(), true)
 
             activity?.runOnUiThread {
                 recyclerView?.adapter = adapter

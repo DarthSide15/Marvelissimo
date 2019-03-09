@@ -51,17 +51,19 @@ class CharactersFragment : Fragment() {
     private fun getAllCharacters() {
         apiCaller.getAllCharactersCall {
 
+            val ids = arrayListOf<Int>()
             val characterNames = arrayListOf<String>()
             val imageUrls = arrayListOf<String>()
 
             for (c in it) {
                 println(c.name)
+                ids.add(c.id)
                 characterNames.add(c.name)
                 imageUrls.add(c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
             }
 
             val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
-            val adapter = RecyclerViewAdapter(characterNames, imageUrls, this.requireContext())
+            val adapter = RecyclerViewAdapter(ids, characterNames, imageUrls, this.requireContext(), false)
 
             activity?.runOnUiThread {
                 recyclerView?.adapter = adapter
