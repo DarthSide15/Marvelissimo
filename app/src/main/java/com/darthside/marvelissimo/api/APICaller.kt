@@ -167,9 +167,15 @@ class APICaller {
         })
     }
 
+
     fun searchCharacter(callback: (List<CharacterDTO>) -> Unit, characterName : String) {
 
         url = "https://gateway.marvel.com/v1/public/characters?nameStartsWith=$characterName&ts=$ts&apikey=$apiKey&hash=$hash"
+
+    fun getCharacterById(callback: (List<CharacterDTO>) -> Unit, characterId: Int){
+
+        url = "https://gateway.marvel.com/v1/public/characters/$characterId?&ts=$ts&apikey=$apiKey&hash=$hash"
+
         Log.d(httpTag, "Attempting request")
         val request = Request.Builder().url(url).build()
 
@@ -184,6 +190,7 @@ class APICaller {
                 if (jsonData.data.results.isNotEmpty()) {
                     val characterList = jsonData.data.results
                     callback(characterList)
+
                 }
             }
 
@@ -210,6 +217,10 @@ class APICaller {
                 if (jsonData.data.results.isNotEmpty()) {
                     val seriesList = jsonData.data.results
                     callback(seriesList)
+
+                } else {
+                    Log.d(httpTag, "No character details found when calling getCharacetDetails")
+
                 }
             }
 
