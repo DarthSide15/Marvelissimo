@@ -19,11 +19,11 @@ class SeriesDetailsActivity : AppCompatActivity() {
         val passedId = intent.getIntExtra("id", 0)
 
         var imagePh : ImageView? = findViewById(R.id.image_ph)
-        var titlePh : TextView? = findViewById(R.id.title_ph)
-        var descriptionPh : TextView? = findViewById(R.id.description)
-        var startYearPh : TextView? = findViewById(R.id.start_year_ph)
-        var endYearPh : TextView? = findViewById(R.id.end_year_ph)
-        var characterListLayout : LinearLayout = findViewById(R.id.character_list_layout)
+        val titlePh : TextView? = findViewById(R.id.title_ph)
+        val descriptionPh : TextView? = findViewById(R.id.series_description)
+        val startYearPh : TextView? = findViewById(R.id.start_year_ph)
+        val endYearPh : TextView? = findViewById(R.id.end_year_ph)
+        val characterListLayout : LinearLayout = findViewById(R.id.character_list_layout)
 
         apiCaller.getSeriesById({
 
@@ -37,8 +37,8 @@ class SeriesDetailsActivity : AppCompatActivity() {
                     endYearPh?.text = s.endYear.toString()
 
                     for (c in s.characters.items) {
-                        var characterName = c.name
-                        var textView = TextView(this)
+                        val characterName = c.name
+                        val textView = TextView(this)
                         textView.setTextColor(ContextCompat.getColor(this, R.color.colorText))
                         textView.text = characterName
                         characterListLayout.addView(textView)
