@@ -3,23 +3,25 @@ package com.darthside.marvelissimo.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
+import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.R
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-private const val fragmentsTag =  "FRAGMENTS"
+private const val fragmentsTag =  "HOME FRAGMENT"
 private val apiCaller = APICaller()
-private val ts = "1"
-private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
-private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
 
 
 class HomeFragment : Fragment() {
@@ -28,30 +30,40 @@ class HomeFragment : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+        Log.d(fragmentsTag, "Fragment loaded")
 
-        Log.d(fragmentsTag, "HomeFragment loaded")
+        val searchInputBox = activity?.findViewById(R.id.search_input_characters) as TextInputEditText?
+        val btnSubmitC = activity?.findViewById(R.id.button_c) as Button?
 
-        // Example on how to target elements in frontend
-//        val namePlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.name_placeholder)
-//        val descriptionPlaceholder : TextView? = view?.findViewById(com.darthside.marvelissimo.R.id.description_placeholder)
+        // onClickListener not working
+        btnSubmitC?.setOnClickListener {
+             val input = searchInputBox?.text.toString()
+             Log.d(fragmentsTag, "Input: $input")
+             Toast.makeText(this.context, "You clicked me.", Toast.LENGTH_SHORT).show()
+             searchForCharacter(input)
+        }
+    }
+
+    private fun searchForCharacter(name : String) {
+        apiCaller.searchCharacter({
+            for (c in it) {
+                var thumbnail = c.thumbnail
+                var name = c.name
+                var nameTextView = TextView(context)
 
 
-        // TODO: At first the home fragment should just display a welcome text and some instructions for the user
-        // TODO: When the user searches for a character or series, the welcome text should be replaced by the search result
-
-        // Use this method call when user searches for a character, with the user input as an argument
-        getCharacter("spider-man")
-
-        // Use this method call when user searches for a series, with the user input as an argument
-        getSeries("wolverine")
+                activity?.runOnUiThread {
+                    nameTextView.text = name
+                    result_list.addView(nameTextView)
+                }
+            }
+        }, name)
     }
 
     private fun getCharacter(name : String) {
@@ -78,8 +90,11 @@ class HomeFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(com.darthside.marvelissimo.R.layout.fragment_home, container, false)
+        val v = inflater.inflate(R.layout.fragment_home, container, false)
+        val resultList = v.findViewById(R.id.result_list) as LinearLayout
+
+
+        return v
     }
 
     fun onButtonPressed(uri: Uri) {
@@ -101,20 +116,10 @@ class HomeFragment : Fragment() {
     }
 
     interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             HomeFragment().apply {

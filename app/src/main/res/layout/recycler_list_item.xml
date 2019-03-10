@@ -20,7 +20,8 @@
             android:textColor="@color/colorText"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:textSize="17sp"/>
+            android:textSize="17sp"
+            android:maxWidth="245dp"/>
 
     <Button
             android:layout_width="40dp"
