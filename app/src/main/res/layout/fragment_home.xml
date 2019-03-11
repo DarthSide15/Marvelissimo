@@ -13,13 +13,16 @@
             android:background="@color/colorBackground">
 
         <Button
-                android:text="Button"
-                android:layout_width="60dp"
-                android:layout_height="0dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:id="@+id/button_c"
                 app:layout_constraintStart_toEndOf="@+id/textInputLayout1"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout1"
-                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout1"/>
+                app:layout_constraintBottom_toBottomOf="@+id/textInputLayout1"
+                android:clickable="true"
+                android:background="@color/colorPrimary"
+                android:drawableStart="@android:drawable/ic_search_category_default"
+                android:alpha="0.9"/>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="300dp"
@@ -44,14 +47,17 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-                android:text="Button"
-                android:layout_width="60dp"
-                android:layout_height="0dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:id="@+id/button_s"
                 app:layout_constraintStart_toEndOf="@+id/textInputLayout2"
                 app:layout_constraintTop_toTopOf="@+id/textInputLayout2"
                 app:layout_constraintBottom_toBottomOf="@+id/textInputLayout2"
-                app:layout_constraintVertical_bias="1.0"/>
+                app:layout_constraintVertical_bias="1.0"
+                android:clickable="true"
+                android:background="@color/colorPrimary"
+                android:drawableStart="@android:drawable/ic_search_category_default"
+                android:alpha="0.9"/>
 
         <android.support.design.widget.TextInputLayout
                 android:layout_width="300dp"
