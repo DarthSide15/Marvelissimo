@@ -30,6 +30,8 @@ class FavouriteFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private var favouriteSeriesIds : HashSet<Int>? = null
+    private var favouriteCharIds : HashSet<Int>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +85,11 @@ class FavouriteFragment : Fragment() {
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         fun onFragmentInteraction(uri: Uri)
+    }
+
+    fun setFavoriteLists(favouriteSeriesIds : HashSet<Int>, favouriteCharIds : HashSet<Int>){
+        this.favouriteSeriesIds = favouriteSeriesIds
+        this.favouriteCharIds = favouriteCharIds
     }
 
     companion object {

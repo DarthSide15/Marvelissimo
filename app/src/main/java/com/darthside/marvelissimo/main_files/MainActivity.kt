@@ -28,15 +28,20 @@ class MainActivity : AppCompatActivity(),
     private lateinit var charactersFragment: CharactersFragment
     private lateinit var favouriteFragment: FavouriteFragment
 
+    private var favouriteSeriesIds : HashSet<Int> = HashSet()
+    private var favouriteCharacterIds : HashSet<Int> = HashSet()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(com.darthside.marvelissimo.R.layout.activity_main)
 
         homeFragment = HomeFragment.newInstance("p1", "p2")
-        seriesFragment = SeriesFragment.newInstance("p1", "p2")
+        seriesFragment = SeriesFragment.newInstance()
+        seriesFragment.setFavoriteList(favouriteSeriesIds)
         charactersFragment = CharactersFragment.newInstance("p1", "p2")
+        charactersFragment.setFavoriteList(favouriteCharacterIds)
         favouriteFragment = FavouriteFragment.newInstance("p1", "p2")
+        favouriteFragment.setFavoriteLists(favouriteSeriesIds, favouriteCharacterIds)
 
         setLaunchFragment(homeFragment)
         setSupportActionBar(toolbar)

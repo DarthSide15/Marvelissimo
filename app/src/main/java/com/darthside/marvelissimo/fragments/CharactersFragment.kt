@@ -13,6 +13,7 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.entities.ListItem
 import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -29,6 +30,8 @@ class CharactersFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private var favouriteCharIds : HashSet<Int>? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,19 +54,19 @@ class CharactersFragment : Fragment() {
     private fun getAllCharacters() {
         apiCaller.getAllCharactersCall {
 
-            val ids = arrayListOf<Int>()
-            val characterNames = arrayListOf<String>()
-            val imageUrls = arrayListOf<String>()
+            val items = arrayListOf<ListItem>()
 
             for (c in it) {
-                println(c.name)
-                ids.add(c.id)
-                characterNames.add(c.name)
-                imageUrls.add(c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
+                var li = ListItem(c.id, c.name, c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
+                if (favouriteCharIds?.contains(c.id)==true){
+                    li.isFavorite = true
+                }
+                items.add(li)
             }
 
+
             val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
-            val adapter = RecyclerViewAdapter(ids, characterNames, imageUrls, this.requireContext(), false)
+            val adapter = RecyclerViewAdapter(items, this.requireContext(), false)
 
             activity?.runOnUiThread {
                 recyclerView?.adapter = adapter
@@ -97,6 +100,10 @@ class CharactersFragment : Fragment() {
 
     interface OnFragmentInteractionListener {
         fun onFragmentInteraction(uri: Uri)
+    }
+
+    fun setFavoriteList(favouriteCharIds : HashSet<Int>){
+        this.favouriteCharIds = favouriteCharIds
     }
 
     companion object {

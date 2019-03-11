@@ -10,20 +10,18 @@ import android.view.ViewGroup
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.darthside.marvelissimo.R
+import com.darthside.marvelissimo.entities.ListItem
 
 import java.util.ArrayList
 
-class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, images: ArrayList<String>, private val context: Context, isSeries : Boolean) :
+class RecyclerViewAdapter(listItems : ArrayList<ListItem>, private val context: Context, isSeries : Boolean) :
     RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
-    private var id = arrayListOf<Int>()
-    private var nameTitles = arrayListOf<String>()
-    private var images = arrayListOf<String>()
+    private var listItems = arrayListOf<ListItem>()
     private var isSeries = false
 
     init {
-        this.id = id
-        this.nameTitles = nameTitles
-        this.images = images
+        Log.d("test", "list items count: " + listItems.size)
+        this.listItems = listItems
         this.isSeries = isSeries
     }
 
@@ -34,24 +32,24 @@ class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, im
 
     override fun onBindViewHolder(viewHolder: ViewHolder, i: Int) {
         Log.d(TAG, "onBindViewHolder: called")
-
+        var item = listItems[i]
         Glide.with(context)
             .asBitmap()
-            .load(images[i])
+            .load(item.image)
             .into(viewHolder.image)
 
-        viewHolder.nameTitle.text = nameTitles[i]
+        viewHolder.nameTitle.text = item.name
         viewHolder.parentLayout.setOnClickListener {
-            Log.d(TAG, "onClick: clicked on " + nameTitles[i])
-            Toast.makeText(context, nameTitles[i], Toast.LENGTH_SHORT).show()
+            Log.d(TAG, "onClick: clicked on " + item.name)
+            Toast.makeText(context, item.name, Toast.LENGTH_SHORT).show()
             // Load CharacterDetails or SeriesDetails
             if (isSeries) {
                 val intent = Intent(this.context, SeriesDetailsActivity::class.java)
-                intent.putExtra("id", id[i])
+                intent.putExtra("id", item.id)
                 this.context.startActivity(intent)
             }else{
                 val intent = Intent(this.context,CharacterDetailsActivity:: class.java)
-                intent.putExtra("id",id[i])
+                intent.putExtra("id",item.id)
                 this.context.startActivity(intent)
             }
 
@@ -59,15 +57,18 @@ class RecyclerViewAdapter(id : ArrayList<Int>, nameTitles: ArrayList<String>, im
 
         viewHolder.favouriteButton.setOnClickListener {
             Log.d(TAG, "Favourite button pressed")
-            Toast.makeText(context, "Favourite button pressed on ${nameTitles[i]}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Favourite button pressed on ${item.name}", Toast.LENGTH_SHORT).show()
 
+            if(isSeries) {
+
+            }
 
         }
 
     }
 
     override fun getItemCount(): Int {
-        return nameTitles.size
+        return listItems.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

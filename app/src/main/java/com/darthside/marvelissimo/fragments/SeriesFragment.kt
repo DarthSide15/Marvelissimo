@@ -13,6 +13,7 @@ import android.view.ViewGroup
 
 import com.darthside.marvelissimo.R
 import com.darthside.marvelissimo.api.APICaller
+import com.darthside.marvelissimo.entities.ListItem
 import com.darthside.marvelissimo.main_files.RecyclerViewAdapter
 
 private const val ARG_PARAM1 = "param1"
@@ -23,10 +24,11 @@ private val ts = "1"
 private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
 private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
 
-class SeriesFragment : Fragment() {
+class SeriesFragment () : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
+    private var favouriteSeriesIds : HashSet<Int>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,23 +52,22 @@ class SeriesFragment : Fragment() {
     private fun getAllSeries() {
         apiCaller.getAllSeriesCall {
 
-            val ids = arrayListOf<Int>()
-            val titles = arrayListOf<String>()
-            val imageUrls = arrayListOf<String>()
+            val items = arrayListOf<ListItem>()
 
             for (s in it) {
-                println(s.title)
-                ids.add(s.id)
-                titles.add(s.title)
-                imageUrls.add(s.thumbnail.path + "/standard_medium." + s.thumbnail.extension)
+                var li = ListItem(s.id, s.title, s.thumbnail.path + "/standard_medium." + s.thumbnail.extension)
+                if (favouriteSeriesIds?.contains(s.id)==true){
+                    li.isFavorite = true
+                }
+                items.add(li)
             }
 
             val recyclerView = view?.findViewById<RecyclerView>(R.id.recycler_view)
-            val adapter = RecyclerViewAdapter(ids, titles, imageUrls, this.requireContext(), true)
+            val adapter = RecyclerViewAdapter(items, this.requireContext(), true)
 
             activity?.runOnUiThread {
-                recyclerView?.adapter = adapter
                 recyclerView?.layoutManager = LinearLayoutManager(this.requireContext())
+                recyclerView?.adapter = adapter
             }
         }
     }
@@ -98,13 +99,17 @@ class SeriesFragment : Fragment() {
         fun onFragmentInteraction(uri: Uri)
     }
 
+    fun setFavoriteList(favouriteSeriesIds : HashSet<Int>){
+        this.favouriteSeriesIds = favouriteSeriesIds
+    }
+
     companion object {
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             SeriesFragment().apply {
-                arguments = Bundle().apply {
+
+             arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
                 }
             }
     }
