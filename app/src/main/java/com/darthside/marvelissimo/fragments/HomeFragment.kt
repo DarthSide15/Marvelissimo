@@ -3,19 +3,19 @@ package com.darthside.marvelissimo.fragments
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
 import android.support.v4.app.Fragment
-import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 
 import com.darthside.marvelissimo.api.APICaller
 import com.darthside.marvelissimo.R
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
+import android.widget.EditText
+
+
 
 
 private const val ARG_PARAM1 = "param1"
@@ -38,61 +38,121 @@ class HomeFragment : Fragment() {
         }
         Log.d(fragmentsTag, "Fragment loaded")
 
-        val searchInputBox = activity?.findViewById(R.id.search_input_characters) as TextInputEditText?
-        val btnSubmitC = activity?.findViewById(R.id.button_c) as Button?
 
-        // onClickListener not working
-        btnSubmitC?.setOnClickListener {
-             val input = searchInputBox?.text.toString()
-             Log.d(fragmentsTag, "Input: $input")
-             Toast.makeText(this.context, "You clicked me.", Toast.LENGTH_SHORT).show()
-             searchForCharacter(input)
-        }
     }
 
-    private fun searchForCharacter(name : String) {
+    private fun searchForSeries(title : String, resultList : LinearLayout) {
+        apiCaller.searchSeries({
+            for (s in it) {
+                var thumbnail = s.thumbnail
+                var title = s.title
+                var titleTextView = TextView(context)
+
+                activity?.runOnUiThread {
+                    titleTextView.text = title
+                    titleTextView.height = 100
+                    titleTextView.setTextColor(resources.getColor(R.color.colorText))
+                    titleTextView.setPadding(30, 0, 0, 0)
+                    resultList.addView(titleTextView)
+                }
+            }
+        }, title)
+    }
+
+    private fun searchForCharacter(name : String, resultList : LinearLayout) {
         apiCaller.searchCharacter({
             for (c in it) {
                 var thumbnail = c.thumbnail
                 var name = c.name
                 var nameTextView = TextView(context)
 
-
                 activity?.runOnUiThread {
                     nameTextView.text = name
-                    result_list.addView(nameTextView)
+                    nameTextView.height = 100
+                    nameTextView.setTextColor(resources.getColor(R.color.colorText))
+                    nameTextView.setPadding(30, 0, 0, 0)
+                    resultList.addView(nameTextView)
                 }
             }
         }, name)
     }
 
-    private fun getCharacter(name : String) {
-        apiCaller.getCharacterCall({
-            val id = it.id
-            val name = it.name
-            val description = it.description
-            val view = nav_view
-
-            // Change UI elements here
-
-        }, name)
-    }
-
-    private fun getSeries(title : String) {
-        apiCaller.getSeriesCall({
-            for (i in it) {
-                println(i.title)
-            }
-
-            // Change UI elements here
-
-        }, title)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+
         val v = inflater.inflate(R.layout.fragment_home, container, false)
         val resultList = v.findViewById(R.id.result_list) as LinearLayout
+        val editTextC = v.findViewById(R.id.edit_text_c) as EditText
+        val editTextS = v.findViewById(R.id.edit_text_s) as EditText
+        val buttonC = v.findViewById(R.id.button_c) as Button
+        val buttonS = v.findViewById(R.id.button_s) as Button
 
+
+        // Submit by keyboard
+        editTextC.setOnEditorActionListener { v, actionId, event ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    val input = editTextC.text.toString()
+
+                    if (input.isNotEmpty()) {
+                        Log.d(fragmentsTag, "Character search input: $input")
+                        resultList.removeAllViewsInLayout()
+                        searchForCharacter(input, resultList)
+                    }
+
+                    true
+                }
+                else -> false
+            }
+        }
+        // Submit by button press
+        buttonC.setOnClickListener {
+            val input = editTextC.text.toString()
+
+            if (input.isNotEmpty()) {
+                Log.d(fragmentsTag, "Character search input: $input")
+                resultList.removeAllViewsInLayout()
+                searchForCharacter(input, resultList)
+            }
+
+        }
+        // Submit by keyboard
+        editTextS.setOnEditorActionListener { v, actionId, event ->
+            return@setOnEditorActionListener when (actionId) {
+                EditorInfo.IME_ACTION_SEND -> {
+                    val input = editTextS.text.toString()
+                    if (input.isNotEmpty()) {
+                        Log.d(fragmentsTag, "Series search input: $input")
+                        resultList.removeAllViewsInLayout()
+                        searchForSeries(input, resultList)
+                    }
+
+
+                    true
+                }
+                else -> false
+            }
+        }
+        // Submit by button press
+        buttonS.setOnClickListener {
+            val input = editTextS.text.toString()
+
+            if (input.isNotEmpty()) {
+                Log.d(fragmentsTag, "Series search input: $input")
+                resultList.removeAllViewsInLayout()
+                searchForSeries(input, resultList)
+            }
+
+
+        }
+
+        for (i in 0 until resultList.childCount) {
+            val item = resultList.getChildAt(i)
+            item.isClickable = true
+            item.setOnClickListener {
+                // Go to this series details page
+                Toast.makeText(context, "Pressed on $item", Toast.LENGTH_SHORT)
+            }
+        }
 
         return v
     }

@@ -239,7 +239,10 @@ class APICaller {
                 val gson = GsonBuilder().create()
                 val jsonData = gson.fromJson(response, CharacterDataWrapper::class.java)
 
-                if (jsonData.data.results.isNotEmpty()) {
+                Log.d(httpTag, "jsonData: $jsonData")
+                if (jsonData == null) {
+                    Log.d(httpTag, "Marvel API is returning null")
+                } else if (jsonData.data.results.isNotEmpty()) {
                     val characterList = jsonData.data.results
                     callback(characterList)
 
