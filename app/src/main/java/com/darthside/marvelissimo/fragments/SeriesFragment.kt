@@ -24,7 +24,7 @@ private val ts = "1"
 private val apiKey = "174943a97b8c08a00a80d1ed425d9ed1"
 private val hash = "8b36d2a14cd3a4cec60c30e9f70b8ab3"
 
-class SeriesFragment () : Fragment() {
+class SeriesFragment: Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
@@ -55,9 +55,9 @@ class SeriesFragment () : Fragment() {
             val items = arrayListOf<ListItem>()
 
             for (s in it) {
-                var li = ListItem(s.id, s.title, s.thumbnail.path + "/standard_medium." + s.thumbnail.extension)
+                var li = ListItem(s.id, s.title, s.thumbnail.path + "/standard_medium." + s.thumbnail.extension, false)
                 if (favouriteSeriesIds?.contains(s.id)==true){
-                    li.isFavorite = true
+                    li.isFavourite = true
                 }
                 items.add(li)
             }

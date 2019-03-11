@@ -57,9 +57,9 @@ class CharactersFragment : Fragment() {
             val items = arrayListOf<ListItem>()
 
             for (c in it) {
-                var li = ListItem(c.id, c.name, c.thumbnail.path + "/standard_medium." + c.thumbnail.extension)
+                var li = ListItem(c.id, c.name, c.thumbnail.path + "/standard_medium." + c.thumbnail.extension, false)
                 if (favouriteCharIds?.contains(c.id)==true){
-                    li.isFavorite = true
+                    li.isFavourite = true
                 }
                 items.add(li)
             }
